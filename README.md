@@ -1,4 +1,4 @@
-# ucc
+# Newsance
 School project in collaboration with Benjamin Duez 
 
 ## Project setup

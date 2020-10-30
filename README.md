@@ -1,4 +1,5 @@
 # ucc
+School project in collaboration with Benjamin Duez 
 
 ## Project setup
 ```

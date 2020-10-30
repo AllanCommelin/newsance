@@ -1,8 +1,8 @@
 {
   "users": [
     {
-      "email": "admin@example.com",
-      "password": "$2a$10$dXNszRnkYBxyRPwYHgIfxeOD0/IBDbkI2aXpj1qXrMwvoVKPXa1Vq",
+      "email": "allan@gmail.com",
+      "password": "$2a$10$AkkaLichX3VWKC6qst7VXekh.XE8ltHfpyahoXwwVfojExxwcbfeC",
       "id": 1
     }
   ],
@@ -14,14 +14,38 @@
     }
   ],
   "genres": [
-    { "id": 1, "name": "rock" },
-    { "id": 2, "name": "metal" },
-    { "id": 3, "name": "rap" },
-    { "id": 4, "name": "classical" },
-    { "id": 5, "name": "electro" },
-    { "id": 6, "name": "rnb" },
-    { "id": 7, "name": "alternative" },
-    { "id": 8, "name": "jazz" }
+    {
+      "id": 1,
+      "name": "rock"
+    },
+    {
+      "id": 2,
+      "name": "metal"
+    },
+    {
+      "id": 3,
+      "name": "rap"
+    },
+    {
+      "id": 4,
+      "name": "classical"
+    },
+    {
+      "id": 5,
+      "name": "electro"
+    },
+    {
+      "id": 6,
+      "name": "rnb"
+    },
+    {
+      "id": 7,
+      "name": "alternative"
+    },
+    {
+      "id": 8,
+      "name": "jazz"
+    }
   ],
   "artists": [
     {

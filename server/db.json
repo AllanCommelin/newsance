@@ -3,6 +3,7 @@
     {
       "email": "allan@gmail.com",
       "password": "$2a$10$AkkaLichX3VWKC6qst7VXekh.XE8ltHfpyahoXwwVfojExxwcbfeC",
+      "role": "admin",
       "id": 1
     }
   ],

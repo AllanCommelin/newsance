@@ -23,14 +23,11 @@
                 </div>
             </div>
         </div>
-        <div>
-            <p class="text-color-red">{{ error }}</p>
-        </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
+    import { mapState, mapActions } from 'vuex'
 
     export default {
         name: "Login",
@@ -38,22 +35,29 @@
             return {
                 email: '',
                 password: '',
-                error: null
+            }
+        },
+        computed: {
+            ...mapState({
+                user: state => state.User.user,
+                is_login: state => state.user.is_login
+            })
+        },
+        watch: {
+            is_login: function () {
+                if (this.is_login) this.$router.push({name: 'Home'})
             }
         },
         methods: {
+            ...mapActions({
+                logInUser: 'user/logInUser'
+            }),
             login () {
-                axios.post('http://localhost:3000/login', {
+                this.logInUser({
                     email: this.email,
                     password: this.password
                 })
-                .then(res => {
-                    localStorage.setItem('token', res.data.accessToken)
-                    this.$router.push({ name: 'Home' })
-                })
-                .catch(err => {
-                    this.error = err
-                })
+
             }
         }
     }

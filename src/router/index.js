@@ -4,6 +4,7 @@ import store from '@/store'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Admin from '@/views/back_office/index.vue'
+import AdminNews from '@/views/back_office/AdminNewsList.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 
@@ -38,7 +39,13 @@ const routes = [
         name: 'Admin',
         component: Admin,
         meta: { requiresAuth: true }
-    }
+    },
+    {
+        path: '/admin/news',
+        name: 'Admin.news',
+        component: AdminNews,
+        meta: { requiresAuth: true }
+    },
 ]
 
 const router = new VueRouter({

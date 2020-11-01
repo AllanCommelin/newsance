@@ -5,7 +5,7 @@
                 <div class="w-full m-4 p-10 bg-white bg-opacity-25 rounded shadow-xl">
                     <p class="text-white font-medium text-center text-lg font-bold">Connexion</p>
                     <div v-if="error" class="my-2">
-                        <alert title="Erreur !" :msg='error' type="error"></alert>
+                        <alert :msg='error' type="error"></alert>
                     </div>
                     <div class="text-left">
                         <label class="block text-sm text-white" for="email">E-mail</label>

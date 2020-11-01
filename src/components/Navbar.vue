@@ -1,30 +1,30 @@
 <template>
-    <div id="nav">
+    <div id="nav" class="pl-8 py-6 bg-teal-900">
         <ul class="flex">
             <li class="mr-6">
-                <router-link class="text-blue-500 hover:text-blue-800" :to="{name: 'Home'}">
+                <router-link class="text-white hover:text-teal-300" :to="{name: 'Home'}">
                     Accueil
                 </router-link>
             </li>
             <li v-if="is_admin" class="mr-6">
-                <router-link class="text-blue-500 hover:text-blue-800" :to="{name: 'Admin'}">
+                <router-link class="text-white hover:text-teal-300" :to="{name: 'Admin'}">
                     Admin
                 </router-link>
             </li>
             <template v-if="!is_login">
                 <li class="mr-6">
-                    <router-link class="text-blue-500 hover:text-blue-800" :to="{name: 'Login'}">
+                    <router-link class="text-white hover:text-teal-300" :to="{name: 'Login'}">
                         Connexion
                     </router-link>
                 </li>
                 <li class="mr-6">
-                    <router-link class="text-blue-500 hover:text-blue-800" :to="{name: 'Register'}">
+                    <router-link class="text-white hover:text-teal-300" :to="{name: 'Register'}">
                         S'incrire
                     </router-link>
                 </li>
             </template>
             <li v-else class="mr-6">
-                <button class="text-blue-500 hover:text-blue-800" @click="logOutUser">Déconnexion</button>
+                <button class="text-white hover:text-teal-300" @click="logOutUser">Déconnexion</button>
             </li>
         </ul>
     </div>
@@ -59,11 +59,9 @@
 
 <style scoped>
     #nav {
-        padding: 30px;
-
         a {
             font-weight: bold;
-            color: #2c3e50;
+            color: white;
 
             &.router-link-exact-active {
                 color: #42b983;

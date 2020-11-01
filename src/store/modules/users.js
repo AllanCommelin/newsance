@@ -1,7 +1,5 @@
-import jwt_decode from "jwt-decode"
-//import axios from "../../api/config.js"
 import Vue from 'vue'
-
+import userApi from '@/api/user'
 
 const state = {
     user: {},
@@ -40,6 +38,10 @@ const mutations = {
 }
 
 const actions = {
+    loadUser: function (store, user) {
+        store.commit('setUser', user)
+        store.commit('setIsLogInTrue')
+    },
     logInUser: function (store, {email, password}) {
         store.commit('initError')
         if(!store.state.pendingUser) {
@@ -50,17 +52,13 @@ const actions = {
             })
                 .then(response => {
                     localStorage.setItem('token', response.data.accessToken)
-                    const { sub } = jwt_decode(localStorage.getItem('token'))
-                    Vue.prototype.$http.get(`http://localhost:3000/users/${sub}`)
-                        .then(response => {
-                            store.commit('setUser', response.data)
-                            store.commit('setIsLogInTrue')
-                        }).catch(() => {
-                            store.commit('setError', 'Une erreur est survenue')
-                        })
+                    userApi.verifyUser()
                 })
                 .catch(() => {
                     store.commit('setError', 'Une erreur est survenue')
+                    setTimeout(function () {
+                        store.commit('initError')
+                    }, 6000)
                 })
             store.commit('setPendingUserFalse')
         }
@@ -69,6 +67,27 @@ const actions = {
         localStorage.removeItem('token')
         store.commit('setUser', {})
         store.commit('setIsLogInFalse')
+    },
+    registerUser: function (store, {email, password}) {
+        store.commit('initError')
+        if (!store.state.pendingUser) {
+            Vue.prototype.$http.post('http://localhost:3000/register', {
+                email: email,
+                password: password,
+                role: 'user'
+            })
+                .then(res => {
+                    localStorage.setItem('token', res.data.accessToken)
+                    userApi.verifyUser()
+                })
+                .catch(() => {
+                    store.commit('setError', 'Une erreur est survenue')
+                    setTimeout(function () {
+                        store.commit('initError')
+                    }, 6000)
+                })
+            store.commit('setPendingUserFalse')
+        }
     }
 }
 

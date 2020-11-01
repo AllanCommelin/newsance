@@ -7,7 +7,7 @@
                 </router-link>
             </li>
             <li v-if="is_admin" class="mr-6">
-                <router-link class="text-blue-500 hover:text-blue-800" to="/admin">
+                <router-link class="text-blue-500 hover:text-blue-800" :to="{name: 'Admin'}">
                     Admin
                 </router-link>
             </li>

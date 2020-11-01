@@ -8,8 +8,10 @@ export default {
         Vue.prototype.$http.get(`http://localhost:3000/users/${sub}`)
             .then(response => {
                 store.dispatch('user/loadUser', response.data)
-            }).catch(() => {
-                //store.commit('setError', 'Une erreur est survenue')
+                return true
+            }).catch((err) => {
+                if (err.response.status === 401) store.commit('user/setError', 'Session expirée, veuillez-vous reconnecter')
+                return false
              })
     }
 }

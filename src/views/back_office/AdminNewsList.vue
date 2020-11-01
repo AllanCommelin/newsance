@@ -1,18 +1,71 @@
 <template>
     <BOTemplate>
-        <div>
-            WIP ;)
+        <div class="text-gray-900">
+            <div class="p-4 flex">
+                <h1 class="text-3xl">
+                    News
+                </h1>
+            </div>
+            <div v-if="errorNews" class="my-2">
+                <alert :msg='errorNews' type="error"></alert>
+            </div>
+            <div class="px-3 py-4 flex justify-center">
+                <table class="w-full text-md bg-white shadow-md rounded mb-4">
+                    <tbody>
+                    <tr class="border-b">
+                        <th class="text-left p-3 px-5">Titre</th>
+                        <th class="text-left p-3 px-5">Date de publication</th>
+                        <th class="text-left p-3 px-5">Contenu</th>
+                        <th></th>
+                    </tr>
+                    <template v-if="allNews.length > 0">
+                        <tr class="border-b hover:bg-teal-400 hover:text-white bg-gray-100 text-left"
+                            v-for="news in allNews" :key="news.id">
+                            <td class="p-3 px-5">{{ news.title }}</td>
+                            <td class="p-3 px-5">{{ news.published }}</td>
+                            <td class="p-3 px-5">{{ news.content.substring(0, 15) }}...</td>
+                            <td class="p-3 px-5 flex justify-end">
+                                <button class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">Modifier</button>
+                                <button class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">Supprimer</button>
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr>
+                            <td colspan="3" class="p-4"> Aucune news pour le moment !</td>
+                        </tr>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </BOTemplate>
 </template>
 
 <script>
     import BOTemplate from '@/layouts/BOTemplate'
+    import Alert from '@/components/Alert'
+    import { mapActions, mapState } from 'vuex'
 
     export default {
         name: "AdminNewsList",
         components: {
-            BOTemplate
+            BOTemplate,
+            Alert
+        },
+        computed: {
+            ...mapState({
+                allNews: state => state.news.allNews,
+                errorNews: state => state.news.errorNews
+            })
+        },
+        methods: {
+            ...mapActions({
+                fetchAllNews: 'news/fetchAllNews'
+            })
+        },
+        mounted () {
+            this.fetchAllNews()
         },
     }
 </script>

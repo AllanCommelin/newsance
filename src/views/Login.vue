@@ -14,7 +14,7 @@
                     <div class="text-left mt-2">
                         <label class="block  text-sm text-white">Mot de passe</label>
                         <input v-model="password" class="w-full px-5 py-1 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
-                               type="password" id="password" placeholder="Mot de passe" arial-label="password" required>
+                               type="password" id="password" placeholder="Mot de passe" arial-label="password" v-on:keyup.enter="login" required>
                     </div>
                     <div class="mt-4 items-center flex justify-between">
                         <button class="px-4 py-1 text-white font-light tracking-wider bg-teal-900 hover:bg-teal-800 rounded"

@@ -6,6 +6,7 @@ import Home from '@/views/Home.vue'
 import Admin from '@/views/back_office/index.vue'
 import AdminNews from '@/views/back_office/News/AdminNewsList.vue'
 import AdminNewsEdit from '@/views/back_office/News/AdminNewsEdit.vue'
+import AdminNewsCreate from '@/views/back_office/News/AdminNewsCreate.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 
@@ -45,6 +46,12 @@ const routes = [
         path: '/admin/news',
         name: 'Admin.news',
         component: AdminNews,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/admin/news/create',
+        name: 'Admin.news.create',
+        component: AdminNewsCreate,
         meta: { requiresAuth: true }
     },
     {

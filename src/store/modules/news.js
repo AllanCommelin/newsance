@@ -61,7 +61,24 @@ const actions = {
             })
         store.commit('setPendingNewsFalse')
     },
+    async createNews (store, news) {
+        store.commit('initErrorNews')
+        store.commit('setPendingNewsTrue')
+        await Vue.prototype.$http.post('http://localhost:3000/news', {...news})
+            .then(() => {
+                //todo: Faire une alert success
+            })
+            .catch(() => {
+                store.commit('setErrorNews', 'Une erreur est survenue')
+                setTimeout(function () {
+                    store.commit('initErrorNews')
+                }, 6000)
+            })
+        store.commit('setPendingNewsFalse')
+    },
     async editNews (store, news) {
+        store.commit('initErrorNews')
+        store.commit('setPendingNewsTrue')
         await Vue.prototype.$http.patch(`http://localhost:3000/news/${news.id}`, {...news})
             .then(() => {
                 //todo: Faire une alert success
@@ -72,6 +89,22 @@ const actions = {
                     store.commit('initErrorNews')
                 }, 6000)
             })
+        store.commit('setPendingNewsFalse')
+    },
+    async deleteNews (store, id) {
+        store.commit('initErrorNews')
+        store.commit('setPendingNewsTrue')
+        await Vue.prototype.$http.delete(`http://localhost:3000/news/${id}`)
+            .then(() => {
+                //todo: Faire une alert success
+            })
+            .catch(() => {
+                store.commit('setErrorNews', 'Une erreur est survenue')
+                setTimeout(function () {
+                    store.commit('initErrorNews')
+                }, 6000)
+            })
+        store.commit('setPendingNewsFalse')
     },
 }
 

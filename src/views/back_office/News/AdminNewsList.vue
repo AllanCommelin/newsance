@@ -1,10 +1,13 @@
 <template>
     <BOTemplate>
         <div class="text-gray-900">
-            <div class="p-4 flex">
+            <div class="p-4 flex justify-between">
                 <h1 class="text-3xl">
                     News
                 </h1>
+                <button @click="goToCreate" class="px-4 py-1 text-white font-light tracking-wider bg-teal-500 hover:bg-teal-800 rounded">
+                    Créer une news
+                </button>
             </div>
             <div v-if="errorNews" class="my-2">
                 <alert :msg='errorNews' type="error"></alert>
@@ -25,8 +28,12 @@
                             <td class="p-3 px-5">{{ news.published }}</td>
                             <td class="p-3 px-5">{{ news.content.substring(0, 15) }}...</td>
                             <td class="p-3 px-5 flex justify-end">
-                                <button class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">Modifier</button>
-                                <button class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">Supprimer</button>
+                                <button @click="goToEdit(news.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
+                                    Modifier
+                                </button>
+                                <button @click="remove(news.id)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
                     </template>
@@ -61,8 +68,20 @@
         },
         methods: {
             ...mapActions({
-                fetchAllNews: 'news/fetchAllNews'
-            })
+                fetchAllNews: 'news/fetchAllNews',
+                createNews: 'news/createNews',
+                deleteNews: 'news/deleteNews'
+            }),
+            goToCreate () {
+                this.$router.push({ name: 'Admin.news.create'})
+            },
+            goToEdit (id) {
+                this.$router.push({name: 'Admin.news.edit', params: { id: id } })
+            },
+            remove (id) {
+                this.deleteNews(id)
+                this.fetchAllNews()
+            }
         },
         mounted () {
             this.fetchAllNews()

@@ -2,7 +2,7 @@
     <BOTemplate>
         <div class="p-4 flex">
             <h1 class="text-3xl">
-                Modifier une news
+                Créer une news
             </h1>
         </div>
         <div v-if="errorNews" class="my-2">
@@ -22,8 +22,8 @@
                     </label>
                     <input v-model="news.content" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="content" type="text" placeholder="Contenu">
                 </div>
-                <button @click="save" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
-                    Enregister
+                <button @click="create" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
+                    Créer
                 </button>
             </form>
         </div>
@@ -36,29 +36,40 @@
     import Alert from '@/components/Alert'
 
     export default {
-        name: "AdminNewsEdit",
+        name: "AdminNewsCreate",
         components: {
             BOTemplate,
             Alert
         },
+        data () {
+            return {
+                news: {
+                    title: '',
+                    content: '',
+                    published: '',
+                }
+            }
+        },
         computed: {
             ...mapState({
-                news: state => state.news.news,
                 errorNews: state => state.news.errorNews
             })
         },
         methods: {
             ...mapActions({
-                fetchNews: 'news/fetchNews',
-                editNews: 'news/editNews'
+                createNews: 'news/createNews',
             }),
-            save () {
-                this.editNews(this.news)
-                this.$router.push({ name: 'Admin.news'})
+            getDate () {
+                const date = Date.now()
+                const day = date.getUTCDate().toString().length === 2 ? date.getUTCDate() : '0' + date.getUTCDate()
+                let month = date.getUTCMonth() + 1
+                month = month.toString().length === 2 ? month : '0' + month
+                return day + '/' + month + '/' + date.getFullYear()
+            },
+            async create () {
+                this.news.published = await this.getDate()
+                this.createNews(this.news)
             }
-        },
-        mounted () {
-            this.fetchNews(this.$route.params.id)
         }
     }
 </script>

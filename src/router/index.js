@@ -3,8 +3,9 @@ import userApi from '@/api/user'
 import store from '@/store'
 import Main from '@/layouts/Main.vue'
 import VueRouter from 'vue-router'
-import newsRoutes from '@/router/news'
 import defaultRoutes from '@/router/default'
+import newsRoutes from '@/router/news'
+import artistsRoutes from '@/router/artists'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,8 @@ const router = new VueRouter({
             path: '',
             children: [
                 ...defaultRoutes,
-                ...newsRoutes
+                ...newsRoutes,
+                ...artistsRoutes
             ]
         }
     ]

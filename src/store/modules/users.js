@@ -18,7 +18,7 @@ const mutations = {
         state.user = user
     },
     setError (state, error) {
-        state.errorLogin = error
+        state.errorLogin = error ? error : 'Une erreur est survenue'
     },
     initError (state) {
         state.errorLogin = false
@@ -55,10 +55,7 @@ const actions = {
                     userApi.verifyUser()
                 })
                 .catch(() => {
-                    store.commit('setError', 'Une erreur est survenue')
-                    setTimeout(function () {
-                        store.commit('initError')
-                    }, 6000)
+                    store.dispatch('errorUser')
                 })
             store.commit('setPendingUserFalse')
         }
@@ -81,13 +78,17 @@ const actions = {
                     userApi.verifyUser()
                 })
                 .catch(() => {
-                    store.commit('setError', 'Une erreur est survenue')
-                    setTimeout(function () {
-                        store.commit('initError')
-                    }, 6000)
+                    store.dispatch('errorUser')
                 })
             store.commit('setPendingUserFalse')
         }
+    },
+
+    errorUser (store, error = null) {
+        store.commit('setError', error)
+        setTimeout(function () {
+            store.commit('initError')
+        }, 3000)
     }
 }
 

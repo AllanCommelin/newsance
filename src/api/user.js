@@ -10,7 +10,7 @@ export default {
                 store.dispatch('user/loadUser', response.data)
                 return true
             }).catch((err) => {
-                if (err.response.status === 401) store.commit('user/setError', 'Session expirée, veuillez-vous reconnecter')
+                if (err.response.status === 401) store.dispatch('errorUser', 'Session expirée, veuillez-vous reconnecter')
                 return false
              })
     }

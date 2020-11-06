@@ -3,7 +3,7 @@ import Vue from 'vue'
 const state = {
     allNews: [],
     news: {},
-    errorNews: false,
+    alertNews: false,
     pendingNews: false,
 }
 
@@ -16,11 +16,20 @@ const mutations = {
     setNews (state, news) {
         state.news = news
     },
-    setErrorNews (state, error) {
-        state.errorNews = error
+    setSuccessNews (state, success) {
+        state.alertNews = {
+            type: 'success',
+            msg: success ? success : 'L\'action s\'est déroulée avec succès'
+        }
     },
-    initErrorNews (state) {
-        state.errorNews = false
+    setErrorNews (state, error) {
+        state.alertNews = {
+            type: 'error',
+            msg: error ? error : 'Une erreur est survenue'
+        }
+    },
+    initAlertNews (state) {
+        state.alertNews = false
     },
     setPendingNewsTrue (state) {
         state.pendingNews = true
@@ -32,79 +41,84 @@ const mutations = {
 
 const actions = {
     async fetchAllNews(store) {
-        store.commit('initErrorNews')
         store.commit('setPendingNewsTrue')
         await Vue.prototype.$http.get('http://localhost:3000/news')
             .then(response => {
                 store.commit('setAllNews', response.data)
             })
             .catch(() => {
-                store.commit('setErrorNews', 'Une erreur est survenue')
-                setTimeout(function () {
-                    store.commit('initErrorNews')
-                }, 6000)
+                store.dispatch('errorNews')
             })
         store.commit('setPendingNewsFalse')
     },
     async fetchNews (store, id) {
-        store.commit('initErrorNews')
         store.commit('setPendingNewsTrue')
         await Vue.prototype.$http.get(`http://localhost:3000/news/${id}`)
             .then(response => {
                 store.commit('setNews', response.data)
             })
             .catch(() => {
-                store.commit('setErrorNews', 'Une erreur est survenue')
-                setTimeout(function () {
-                    store.commit('initErrorNews')
-                }, 6000)
+                store.dispatch('errorNews')
             })
         store.commit('setPendingNewsFalse')
     },
     async createNews (store, news) {
-        store.commit('initErrorNews')
+        let result;
         store.commit('setPendingNewsTrue')
         await Vue.prototype.$http.post('http://localhost:3000/news', {...news})
             .then(() => {
-                //todo: Faire une alert success
+                result = Promise.resolve()
+                store.dispatch('successNews')
             })
             .catch(() => {
-                store.commit('setErrorNews', 'Une erreur est survenue')
-                setTimeout(function () {
-                    store.commit('initErrorNews')
-                }, 6000)
+                result = Promise.reject()
+                store.dispatch('errorNews')
             })
         store.commit('setPendingNewsFalse')
+        return result
     },
     async editNews (store, news) {
-        store.commit('initErrorNews')
+        let result;
         store.commit('setPendingNewsTrue')
         await Vue.prototype.$http.patch(`http://localhost:3000/news/${news.id}`, {...news})
             .then(() => {
-                //todo: Faire une alert success
+                result = Promise.resolve()
+                store.dispatch('successNews')
             })
             .catch(() => {
-                store.commit('setErrorNews', 'Une erreur est survenue')
-                setTimeout(function () {
-                    store.commit('initErrorNews')
-                }, 6000)
+                result = Promise.reject()
+                store.dispatch('errorNews')
             })
         store.commit('setPendingNewsFalse')
+        return result
     },
     async deleteNews (store, id) {
-        store.commit('initErrorNews')
+        let result
         store.commit('setPendingNewsTrue')
         await Vue.prototype.$http.delete(`http://localhost:3000/news/${id}`)
             .then(() => {
-                //todo: Faire une alert success
+                result = Promise.resolve()
+                store.dispatch('successNews')
             })
             .catch(() => {
-                store.commit('setErrorNews', 'Une erreur est survenue')
-                setTimeout(function () {
-                    store.commit('initErrorNews')
-                }, 6000)
+                result = Promise.reject()
+                store.dispatch('errorNews')
             })
         store.commit('setPendingNewsFalse')
+        return result
+    },
+
+    errorNews (store, error = null) {
+        store.commit('setErrorNews', error)
+        setTimeout(function () {
+            store.commit('initAlertNews')
+        }, 3000)
+    },
+    successNews (store, success = null) {
+        store.commit('setSuccessNews', success)
+        setTimeout(function () {
+            store.commit('initAlertNews')
+        }, 3000)
     },
 }
 

@@ -1,71 +1,26 @@
 import Vue from 'vue'
 import userApi from '@/api/user'
 import store from '@/store'
+import Main from '@/layouts/Main.vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
-import Admin from '@/views/back_office/index.vue'
-import AdminNews from '@/views/back_office/News/AdminNewsList.vue'
-import AdminNewsEdit from '@/views/back_office/News/AdminNewsEdit.vue'
-import AdminNewsCreate from '@/views/back_office/News/AdminNewsCreate.vue'
-import Login from '@/views/Login.vue'
-import Register from '@/views/Register.vue'
+import newsRoutes from '@/router/news'
+import defaultRoutes from '@/router/default'
 
 Vue.use(VueRouter)
 
-const routes = [
-    {
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: Register
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login
-    },
-    {
-        path: '/about',
-        name: 'About',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    },
-    {
-        path: '/admin',
-        name: 'Admin',
-        component: Admin,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/admin/news',
-        name: 'Admin.news',
-        component: AdminNews,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/admin/news/create',
-        name: 'Admin.news.create',
-        component: AdminNewsCreate,
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/admin/news/edit/:id',
-        name: 'Admin.news.edit',
-        component: AdminNewsEdit,
-        meta: { requiresAuth: true }
-    },
-]
-
 const router = new VueRouter({
     mode: 'history',
-    base: process.env.BASE_URL,
-    routes
+    base: '/',
+    routes: [
+        {
+            component: Main,
+            path: '',
+            children: [
+                ...defaultRoutes,
+                ...newsRoutes
+            ]
+        }
+    ]
 })
 
 router.beforeEach(async (to, from, next) => {

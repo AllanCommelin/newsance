@@ -1,13 +1,16 @@
 <template>
     <BOTemplate>
+        <div v-if="alertNews" class="my-2">
+            <alert :msg='alertNews.msg' :type="alertNews.type"></alert>
+        </div>
         <div class="text-gray-900">
-            <div class="p-4 flex">
+            <div class="p-4 flex justify-between">
                 <h1 class="text-3xl">
                     News
                 </h1>
-            </div>
-            <div v-if="errorNews" class="my-2">
-                <alert :msg='errorNews' type="error"></alert>
+                <button @click="goToCreate" class="px-4 py-1 text-white font-light tracking-wider bg-teal-500 hover:bg-teal-800 rounded">
+                    Créer une news
+                </button>
             </div>
             <div class="px-3 py-4 flex justify-center">
                 <table class="w-full text-md bg-white shadow-md rounded mb-4">
@@ -25,8 +28,12 @@
                             <td class="p-3 px-5">{{ news.published }}</td>
                             <td class="p-3 px-5">{{ news.content.substring(0, 15) }}...</td>
                             <td class="p-3 px-5 flex justify-end">
-                                <button class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">Modifier</button>
-                                <button class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">Supprimer</button>
+                                <button @click="goToEdit(news.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
+                                    Modifier
+                                </button>
+                                <button @click="remove(news.id)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
                     </template>
@@ -56,13 +63,28 @@
         computed: {
             ...mapState({
                 allNews: state => state.news.allNews,
-                errorNews: state => state.news.errorNews
+                alertNews: state => state.news.alertNews
             })
         },
         methods: {
             ...mapActions({
-                fetchAllNews: 'news/fetchAllNews'
-            })
+                fetchAllNews: 'news/fetchAllNews',
+                createNews: 'news/createNews',
+                deleteNews: 'news/deleteNews'
+            }),
+            goToCreate () {
+                this.$router.push({ name: 'Admin.news.create'})
+            },
+            goToEdit (id) {
+                this.$router.push({name: 'Admin.news.edit', params: { id: id } })
+            },
+            remove (id) {
+                this.deleteNews(id)
+                    .then(() => {
+                        this.fetchAllNews()
+                    }).catch()
+
+            }
         },
         mounted () {
             this.fetchAllNews()

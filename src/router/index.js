@@ -34,8 +34,12 @@ router.beforeEach(async (to, from, next) => {
         } else if (localStorage.getItem('token')) {
             // Si il y a un token dans le localStorage mais que le user n'est pas dans le store
             try {
-                const check = await userApi.verifyUser()
-                return check ?  next() : next('/login')
+                await userApi.verifyUser()
+                    .then(() => {
+                        next()
+                    }).catch(() => {
+                        next('/login')
+                    })
             } catch (e) {
                 localStorage.removeItem('token')
                 return next('/login')

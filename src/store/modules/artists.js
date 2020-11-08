@@ -67,15 +67,18 @@ const actions = {
         store.commit('setPendingArtistsFalse')
     },
     async fetchArtist (store, id) {
+        let result
         store.commit('setPendingArtistsTrue')
         await Vue.prototype.$http.get(`http://localhost:3000/artists/${id}`)
             .then(response => {
                 store.commit('setArtist', response.data)
+                result = response.data
             })
             .catch(() => {
                 store.dispatch('errorArtists')
             })
         store.commit('setPendingArtistsFalse')
+        return result
     },
     async createArtist (store, artist) {
         let result;

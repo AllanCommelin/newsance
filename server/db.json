@@ -11,6 +11,12 @@
       "password": "$2a$10$eiqHnzog.tRK1iM0tp6p9OEHUW9bksaB/Ti3vJdz01ZodelfsenB.",
       "role": "user",
       "id": 2
+    },
+    {
+      "email": "bduez@gmail.com",
+      "password": "1234",
+      "role": "user",
+      "id": 3
     }
   ],
   "news": [

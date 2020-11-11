@@ -137,20 +137,26 @@
     {
       "id": 1,
       "name": "Paris Bercy",
-      "date": "10/12/2019",
+      "date": "2021-03-25",
       "artistId": 3
     },
     {
       "id": 2,
       "name": "Olympia",
-      "date": "10/12/2018",
+      "date": "2020-11-25",
       "artistId": 3
     },
     {
       "id": 3,
       "name": "O2 Academy Manchester",
-      "date": "10/12/2018",
+      "date": "2021-02-19",
       "artistId": 2
+    },
+    {
+      "name": "667 Tour",
+      "date": "2027-06-06",
+      "artistId": 6,
+      "id": 4
     }
   ]
 }

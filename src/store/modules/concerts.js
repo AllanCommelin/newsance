@@ -7,7 +7,13 @@ const state = {
     pendingConcerts: false
 }
 
-const getters = {}
+const getters = {
+    sortedConcertsByDate: (state) => {
+        return state.allConcerts.sort(function(a,b){
+            return new Date(a.date) - new Date(b.date);
+        })
+    }
+}
 
 const mutations = {
     setAllConcerts (state, allConcerts) {
@@ -44,10 +50,10 @@ const actions = {
         store.commit('setPendingConcertsTrue')
         await Vue.prototype.$http.get('http://localhost:3000/concerts')
             .then(response => {
-                response.data.forEach(concert => {
+                response.data.forEach( concert => {
                     store.dispatch('artists/fetchArtist', concert.artistId, {root: true})
-                        .then(artist => { concert.artist = artist })
-                        .catch (() => { concert.artist = null })
+                        .then(artist => { concert.artistId = artist })
+                        .catch ()
                 });
                 store.commit('setAllConcerts', response.data)
             })

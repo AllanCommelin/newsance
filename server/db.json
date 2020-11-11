@@ -17,6 +17,12 @@
       "password": "1234",
       "role": "user",
       "id": 3
+    },
+    {
+      "email": "bduez@aono.fr",
+      "password": "$2a$10$yAnWe3WrhCUHSJVdX4rEo.oJiejp4/9O.7UgKyHu8r2V4vWgiaPBq",
+      "role": "user",
+      "id": 4
     }
   ],
   "news": [

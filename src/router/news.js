@@ -2,6 +2,7 @@ import Admin from '@/views/back_office/index.vue'
 import AdminNews from '@/views/back_office/News/AdminNewsList.vue'
 import AdminNewsEdit from '@/views/back_office/News/AdminNewsEdit.vue'
 import AdminNewsCreate from '@/views/back_office/News/AdminNewsCreate.vue'
+import FrontNews from '@/views/front_office/News'
 
 const routes = [
     {
@@ -22,6 +23,11 @@ const routes = [
         component: AdminNewsEdit,
         meta: { requiresAuth: true }
     },
+    {
+        path: '/news',
+        name: 'News',
+        component: FrontNews
+    }
 ]
 
 export default routes

@@ -1,7 +1,7 @@
 <template>
     <BOTemplate>
-        <div v-if="alertArtists" class="my-2">
-            <alert :msg='alertArtists.msg' :type="alertArtists.type"></alert>
+        <div v-if="alertConcerts" class="my-2">
+            <alert :msg='alertConcerts.msg' :type="alertConcerts.type"></alert>
         </div>
         <div class="text-gray-900">
             <div class="p-4 flex justify-between">
@@ -22,10 +22,11 @@
                         <th></th>
                     </tr>
                     <template v-if="allConcerts.length > 0">
-                        <tr class="border-b hover:bg-teal-400 hover:text-white bg-gray-100 text-left" v-for="concert in allConcerts" :key="concert.id">
+                        <tr class="border-b hover:bg-teal-400 hover:text-white bg-gray-100 text-left" v-for="concert in sortedConcertsByDate" :key="concert.id">
                             <td class="p-3 px-5">{{ concert.name }}</td>
-                            <td class="p-3 px-5">{{ concert.date }}</td>
-                            <td class="p-3 px-5">Nom de l'artiste</td>
+                            <td class="p-3 px-5">{{ getFormatDate(concert.date) }}</td>
+                            <td v-if="typeof concert.artistId === 'object'" class="p-3 px-5">{{ concert.artistId.name }}</td>
+                            <td v-else class="p-3 px-5"><i>Artiste non trouvé</i></td>
                             <td class="p-3 px-5 flex justify-end">
                                 <button @click="goToEdit(concert.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
                                     Modifier
@@ -51,7 +52,7 @@
 <script>
     import BOTemplate from '@/layouts/BOTemplate'
     import Alert from '@/components/Alert'
-    import { mapActions, mapState } from 'vuex'
+    import { mapActions, mapState, mapGetters } from 'vuex'
 
     export default {
         name: "AdminConcertsList",
@@ -63,15 +64,25 @@
             ...mapState({
                 allConcerts: state => state.concerts.allConcerts,
                 alertConcerts: state => state.concerts.alertConcerts
+            }),
+            ...mapGetters({
+                sortedConcertsByDate: 'concerts/sortedConcertsByDate'
             })
         },
         methods: {
             ...mapActions({
-                getArtist: 'concerts/getArtists',
                 fetchAllConcerts: 'concerts/fetchAllConcerts',
                 createConcert: 'concerts/createConcert',
-                deleteConcert: 'artists/deleteArtists'
+                deleteConcert: 'artists/deleteConcerts'
             }),
+            getFormatDate(date) {
+                let date_ob = new Date(date);
+                //  Adjust 0 before single digit date
+                let dateFormat = ("0" + date_ob.getDate()).slice(-2);
+                let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+                let year = date_ob.getFullYear();
+                return `${dateFormat}/${month}/${year}`
+            },
             goToCreate () {
                 this.$router.push({ name: 'Admin.concerts.create'})
             },
@@ -88,7 +99,7 @@
         },
         mounted () {
             this.fetchAllConcerts()
-        },
+        }
     }
 </script>
 

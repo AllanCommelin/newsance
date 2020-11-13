@@ -19,19 +19,19 @@
                            id="nom" type="text" placeholder="Nom du concert">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="origin">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
                         Date du concert
                     </label>
                     <input v-model="concert.date"
                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
-                           id="origin" type="date" placeholder="Date">
+                           id="date" type="date" placeholder="Date">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="genre">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="artist">
                         Artiste
                     </label>
                     <div class="relative">
-                        <select v-model="concert.artistId" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="genre">
+                        <select v-model="concert.artistId" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="artist">
                             <option :value="null" :selected="concert.artistId === null">-- Sélectionner un artiste --</option>
                             <option :selected="concert.artistId === artist.id" class="capitalize" v-for="artist in allArtists" :key="artist.id" :value="artist.id">{{ artist.name.charAt(0).toUpperCase() + artist.name.slice(1) }}</option>
                         </select>

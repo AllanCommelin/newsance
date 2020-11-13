@@ -3,11 +3,17 @@ import Vue from 'vue'
 const state = {
     allAlbums: [],
     album: {},
-    alertAlbum: false,
+    alertAlbums: false,
     pendingAlbum: false
 }
 
-const getters = {}
+const getters = {
+    sortedAlbumsByReleased: (state) => {
+        return state.allAlbums.sort(function(a,b){
+            return b.released - a.released;
+        })
+    }
+}
 
 const mutations = {
     setAllAlbums (state, allAlbums) {
@@ -51,13 +57,69 @@ const actions = {
             })
         store.commit('setPendingAlbumsFalse')
     },
+    async fetchAlbum (store, id) {
+        store.commit('setPendingAlbumsTrue')
+        await Vue.prototype.$http.get(`http://localhost:3000/albums/${id}?_expand=artist`)
+            .then(response => {
+                store.commit('setAlbum', response.data)
+            })
+            .catch(() => {
+                store.dispatch('errorAlbums')
+            })
+        store.commit('setPendingAlbumsFalse')
+    },
+    async createAlbum (store, album) {
+        let result;
+        store.commit('setPendingAlbumsTrue')
+        await Vue.prototype.$http.post('http://localhost:3000/albums', {...album})
+            .then(() => {
+                result = Promise.resolve()
+                store.dispatch('successAlbums')
+            })
+            .catch(() => {
+                result = Promise.reject()
+                store.dispatch('errorAlbums')
+            })
+        store.commit('setPendingAlbumsFalse')
+        return result
+    },
+    async editAlbum (store, album) {
+        let result;
+        store.commit('setPendingAlbumsTrue')
+        await Vue.prototype.$http.patch(`http://localhost:3000/albums/${album.id}`, {...album})
+            .then(() => {
+                result = Promise.resolve()
+                store.dispatch('successAlbums')
+            })
+            .catch(() => {
+                result = Promise.reject()
+                store.dispatch('errorAlbums')
+            })
+        store.commit('setPendingAlbumsFalse')
+        return result
+    },
+    async deleteAlbum (store, id) {
+        let result
+        store.commit('setPendingAlbumsTrue')
+        await Vue.prototype.$http.delete(`http://localhost:3000/albums/${id}`)
+            .then(() => {
+                result = Promise.resolve()
+                store.dispatch('successAlbums')
+            })
+            .catch(() => {
+                result = Promise.reject()
+                store.dispatch('errorAlbums')
+            })
+        store.commit('setPendingAlbumsFalse')
+        return result
+    },
     errorAlbums (store, error = null) {
         store.commit('setErrorAlbums', error)
         setTimeout(function () {
             store.commit('initAlertAlbums')
         }, 3000)
     },
-    successArtists (store, success = null) {
+    successAlbums (store, success = null) {
         store.commit('setSuccessAlbums', success)
         setTimeout(function () {
             store.commit('initAlertAlbums')

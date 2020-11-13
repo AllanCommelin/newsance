@@ -4,7 +4,7 @@ import user from './modules/users'
 import news from './modules/news'
 import artists from './modules/artists'
 import concerts from './modules/concerts'
-import albums from "@/store/modules/albums";
+import albums from './modules/albums'
 
 Vue.use(Vuex)
 

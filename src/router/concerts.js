@@ -1,6 +1,7 @@
 import AdminConcerts from '@/views/back_office/Concerts/AdminConcertsList.vue'
 import AdminConcertsCreate from '@/views/back_office/Concerts/AdminConcertsCreate.vue'
 import AdminConcertsEdit from '@/views/back_office/Concerts/AdminConcertsEdit.vue'
+import Concert from "@/views/front_office/Concert";
 
 const routes = [
     {
@@ -20,6 +21,11 @@ const routes = [
         name: 'Admin.concerts.edit',
         component: AdminConcertsEdit,
         meta: { requiresAuth: true }
+    },
+    {
+        path: '/concerts',
+        name: 'Concerts',
+        component: Concert,
     },
 ]
 

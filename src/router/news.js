@@ -2,7 +2,8 @@ import Admin from '@/views/back_office/index.vue'
 import AdminNews from '@/views/back_office/News/AdminNewsList.vue'
 import AdminNewsEdit from '@/views/back_office/News/AdminNewsEdit.vue'
 import AdminNewsCreate from '@/views/back_office/News/AdminNewsCreate.vue'
-import FrontNews from '@/views/front_office/News'
+import News from '@/views/front_office/News/News'
+import ShowNews from '@/views/front_office/News/ShowNews'
 
 const routes = [
     {
@@ -26,7 +27,12 @@ const routes = [
     {
         path: '/news',
         name: 'News',
-        component: FrontNews
+        component: News
+    },
+    {
+        path: '/news/:id',
+        name: 'News.show',
+        component: ShowNews
     }
 ]
 

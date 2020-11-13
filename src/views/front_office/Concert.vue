@@ -1,8 +1,8 @@
 <template>
     <div>
         <ul>
-            <li v-for="(news, index) in allNews" :key="index">
-                {{ news.title }}
+            <li v-for="(concert, index) in allConcerts" :key="index">
+                {{ concert.name }}
             </li>
         </ul>
     </div>
@@ -13,19 +13,19 @@
 import {mapActions, mapState} from "vuex";
 
 export default {
-    name: 'FrontNews',
+    name: 'FrontConcert',
     computed: {
         ...mapState({
-            allNews: state => state.news.allNews,
+            allConcerts: state => state.concerts.allConcerts,
         })
     },
     methods: {
         ...mapActions({
-            fetchAllNews: 'news/fetchAllNews',
+            fetchAllConcerts: 'concerts/fetchAllConcerts',
         }),
     },
     mounted () {
-        this.fetchAllNews()
+        this.fetchAllConcerts()
     },
 }
 </script>

@@ -7,6 +7,7 @@ import defaultRoutes from '@/router/default'
 import newsRoutes from '@/router/news'
 import artistsRoutes from '@/router/artists'
 import concertsRoutes from '@/router/concerts'
+import albumsRoutes from '@/router/albums'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,7 @@ const router = new VueRouter({
                 ...newsRoutes,
                 ...artistsRoutes,
                 ...concertsRoutes,
+                ...albumsRoutes,
             ]
         }
     ]

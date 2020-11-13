@@ -1,4 +1,4 @@
-import FrontAlbum from '@/views/front_office/Album'
+import FrontAlbum from '@/views/front_office/Album/Albums'
 
 const routes = [
     {

@@ -51,9 +51,9 @@ const actions = {
             })
         store.commit('setPendingNewsFalse')
     },
-    async fetchNews (store, id) {
+    async fetchNews (store, id, params = '') {
         store.commit('setPendingNewsTrue')
-        await Vue.prototype.$http.get(`http://localhost:3000/news/${id}`)
+        await Vue.prototype.$http.get(`http://localhost:3000/news/${id}${params}`)
             .then(response => {
                 store.commit('setNews', response.data)
             })

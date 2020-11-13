@@ -38,7 +38,7 @@ export default {
     computed: {
         ...mapState({
             allAlbums: state => state.albums.allAlbums,
-        })
+        }),
     },
     methods: {
         ...mapActions({

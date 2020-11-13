@@ -16,6 +16,11 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    input[type='button'] {
+        &:disabled {
+            background-color: #a0aec0;
+            color: #edf2f7;
+        }
+    }
 </style>

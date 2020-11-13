@@ -40,9 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <button @click="saveConcert" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
-                    Enregister
-                </button>
+                <input type="button" value="Enregister" @click="saveConcert" :disabled="!isFullFiled" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
             </div>
         </div>
     </BOTemplate>
@@ -64,19 +62,27 @@
                 concert: state => state.concerts.concert,
                 allArtists: state => state.artists.allArtists,
                 alertConcerts: state => state.concerts.alertConcerts
-            })
+            }),
+            isFullFiled: function () {
+                return this.concert.name !== '' && this.concert.date !== '' && this.concert.artistId
+            }
         },
         methods: {
             ...mapActions({
                 fetchConcert: 'concerts/fetchConcert',
                 fetchAllArtists: 'artists/fetchAllArtists',
-                editConcert: 'concerts/editConcert'
+                editConcert: 'concerts/editConcert',
+                errorConcerts: 'concerts/errorConcerts',
             }),
             saveConcert () {
-                this.editConcert(this.concert)
-                    .then(() => {
-                        this.$router.push({ name: 'Admin.concerts'})
-                    }).catch()
+                if(this.isFullFiled) {
+                    this.editConcert(this.concert)
+                        .then(() => {
+                            this.$router.push({name: 'Admin.concerts'})
+                        }).catch()
+                } else {
+                    this.errorConcerts('Tous les champs doivent être renseignés')
+                }
             }
         },
         mounted () {

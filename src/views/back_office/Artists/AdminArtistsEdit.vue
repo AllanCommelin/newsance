@@ -66,7 +66,7 @@
                               class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
                               id="content" placeholder="Contenu"></textarea>
                 </div>
-                <input type="button" value="Enregister" @click="saveArtist" :disabled="!isFullFiled"
+                <input type="button" value="Enregistrer" @click="saveArtist" :disabled="!isFullFiled"
                        class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
             </div>
         </div>
@@ -103,7 +103,15 @@
             }),
             saveArtist() {
                 if (this.isFullFiled) {
-                    this.editArtist(this.artist)
+                    this.editArtist({
+                        id: this.artist.id,
+                        name: this.artist.name,
+                        origin: this.artist.origin,
+                        avatar: this.artist.avatar,
+                        genreId: this.artist.genreId,
+                        likes: this.artist.likes,
+                        description: this.artist.description,
+                    })
                         .then(() => {
                             this.$router.push({name: 'Admin.artists'})
                         }).catch()

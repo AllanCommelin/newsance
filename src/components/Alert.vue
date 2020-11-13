@@ -32,5 +32,7 @@
 </script>
 
 <style scoped>
-
+    div {
+        position: absolute;
+    }
 </style>

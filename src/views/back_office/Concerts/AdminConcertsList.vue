@@ -25,7 +25,7 @@
                         <tr class="border-b hover:bg-teal-400 hover:text-white bg-gray-100 text-left" v-for="concert in sortedConcertsByDate" :key="concert.id">
                             <td class="p-3 px-5">{{ concert.name }}</td>
                             <td class="p-3 px-5">{{ getFormatDate(concert.date) }}</td>
-                            <td v-if="typeof concert.artistId === 'object'" class="p-3 px-5">{{ concert.artistId.name }}</td>
+                            <td v-if="concert.artist" class="p-3 px-5">{{ concert.artist.name }}</td>
                             <td v-else class="p-3 px-5"><i>Artiste non trouvé</i></td>
                             <td class="p-3 px-5 flex justify-end">
                                 <button @click="goToEdit(concert.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">

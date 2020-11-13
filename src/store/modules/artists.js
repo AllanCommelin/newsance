@@ -46,7 +46,7 @@ const mutations = {
 const actions = {
     async fetchAllArtists(store) {
         store.commit('setPendingArtistsTrue')
-        await Vue.prototype.$http.get('http://localhost:3000/artists')
+        await Vue.prototype.$http.get('http://localhost:3000/artists?_expand=genre')
             .then(response => {
                 store.commit('setAllArtists', response.data)
             })

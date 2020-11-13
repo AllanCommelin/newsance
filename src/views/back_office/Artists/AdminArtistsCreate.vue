@@ -55,9 +55,7 @@
                     </label>
                     <textarea v-model="artist.description" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="content" placeholder="Contenu"></textarea>
                 </div>
-                <button @click="addArtist" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
-                    Créer
-                </button>
+                <input type="button" value="Créer" @click="addArtist" :disabled="!isFullFiled" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
             </div>
         </div>
     </BOTemplate>
@@ -90,19 +88,27 @@
             ...mapState({
                 allGenres: state => state.artists.allGenres,
                 alertArtists: state => state.news.alertArtists
-            })
+            }),
+            isFullFiled: function () {
+                return this.artist.name !== '' && this.artist.origin !== '' && this.artist.description !== '' && this.artist.genreId
+            }
         },
         methods: {
             ...mapActions({
                 fetchAllGenres: 'artists/fetchAllGenres',
                 createArtist: 'artists/createArtist',
-                deleteArtists: 'artists/deleteArtists'
+                deleteArtists: 'artists/deleteArtists',
+                errorArtists: 'artists/errorArtists'
             }),
             addArtist () {
+                if (this.isFullFiled) {
                 this.createArtist(this.artist)
                     .then(() => {
                         this.$router.push({ name: 'Admin.artists'})
                     }).catch()
+                } else {
+                    this.errorArtists('Tous les champs doivent être renseignés')
+                }
             }
         },
         mounted () {

@@ -22,7 +22,7 @@
                     </label>
                     <textarea v-model="news.content" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" id="content" placeholder="Contenu"></textarea>
                 </div>
-                <input type="button" value="Enregister" @click="save" :disabled="!isFullFiled"
+                <input type="button" value="Enregistrer" @click="save" :disabled="!isFullFiled"
                        class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
             </div>
         </div>
@@ -57,7 +57,11 @@
             }),
             save () {
                 if (this.isFullFiled) {
-                    this.editNews(this.news)
+                    this.editNews({
+                        id: this.news.id,
+                        title: this.news.title,
+                        content: this.news.content
+                    })
                         .then(() => {
                             this.$router.push({name: 'Admin.news'})
                         }).catch()

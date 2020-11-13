@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="button" value="Créer" @click="saveAlbum" :disabled="!isFullFiled" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
+                <input type="button" value="Enregistrer" @click="saveAlbum" :disabled="!isFullFiled" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
             </div>
         </div>
     </BOTemplate>
@@ -84,7 +84,12 @@
             }),
             saveAlbum () {
                 if(this.isFullFiled) {
-                    this.editAlbum(this.album)
+                    this.editAlbum({
+                        id: this.album.id,
+                        released: this.album.released,
+                        tracks: this.album.tracks,
+                        artistId: this.album.artistId,
+                    })
                         .then(() => {
                             this.$router.push({name: 'Admin.albums'})
                         }).catch()

@@ -1,5 +1,6 @@
 <template>
     <BOTemplate>
+        <modal :item="itemToDelete.title"  v-if='toggleModal' @confirm='deleteItem' @cancel="closeModal"/>
         <div v-if="alertNews" class="my-2">
             <alert :msg='alertNews.msg' :type="alertNews.type"></alert>
         </div>
@@ -31,7 +32,7 @@
                                 <button @click="goToEdit(news.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
                                     Modifier
                                 </button>
-                                <button @click="remove(news.id)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
+                                <button @click="askToDelete(news)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
                                     Supprimer
                                 </button>
                             </td>
@@ -52,13 +53,21 @@
 <script>
     import BOTemplate from '@/layouts/BOTemplate'
     import Alert from '@/components/Alert'
+    import Modal from '@/components/back_office/Modal'
     import { mapActions, mapState } from 'vuex'
 
     export default {
         name: "AdminNewsList",
         components: {
             BOTemplate,
-            Alert
+            Alert,
+            Modal
+        },
+        data () {
+            return {
+                itemToDelete: null,
+                toggleModal: false,
+            }
         },
         computed: {
             ...mapState({
@@ -78,12 +87,22 @@
             goToEdit (id) {
                 this.$router.push({name: 'Admin.news.edit', params: { id: id } })
             },
-            remove (id) {
-                this.deleteNews(id)
-                    .then(() => {
-                        this.fetchAllNews()
-                    }).catch()
-
+            askToDelete (item) {
+                this.itemToDelete = item
+                this.toggleModal = true
+            },
+            closeModal () {
+                this.itemToDelete = null
+                this.toggleModal = false
+            },
+            deleteItem () {
+                if(this.itemToDelete.id) {
+                    this.deleteNews(this.itemToDelete.id)
+                        .then(() => {
+                            this.closeModal()
+                            this.fetchAllNews()
+                        }).catch()
+                }
             }
         },
         mounted () {

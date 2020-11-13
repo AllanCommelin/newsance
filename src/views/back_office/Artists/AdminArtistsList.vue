@@ -18,6 +18,7 @@
                     <tr class="border-b">
                         <th class="text-left p-3 px-5">Image</th>
                         <th class="text-left p-3 px-5">Nom</th>
+                        <th class="text-left p-3 px-5">Genre</th>
                         <th class="text-left p-3 px-5">Pays</th>
                         <th class="text-left p-3 px-5">Description</th>
                         <th class="text-left p-3 px-5">Likes</th>
@@ -30,6 +31,8 @@
                                 <img class="inline-block h-10 w-10 rounded-full text-white shadow-solid" :src="artist.avatar" :alt="artist.name">
                             </td>
                             <td class="p-3 px-5">{{ artist.name }}</td>
+                            <td v-if="artist.genre" class="p-3 px-5">{{ artist.genre.name.charAt(0).toUpperCase() + artist.genre.name.slice(1) }}</td>
+                            <td v-else class="p-3 px-5"><i>Genre non trouvé</i></td>
                             <td class="p-3 px-5">{{ artist.origin }}</td>
                             <td class="p-3 px-5">{{ artist.description ? artist.description.substring(0, 15) + '..' : ''}}</td>
                             <td class="p-3 px-5">{{ artist.likes }}</td>

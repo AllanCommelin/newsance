@@ -48,13 +48,8 @@ const mutations = {
 const actions = {
     async fetchAllConcerts(store) {
         store.commit('setPendingConcertsTrue')
-        await Vue.prototype.$http.get('http://localhost:3000/concerts')
+        await Vue.prototype.$http.get('http://localhost:3000/concerts?_expand=artist')
             .then(response => {
-                response.data.forEach( concert => {
-                    store.dispatch('artists/fetchArtist', concert.artistId, {root: true})
-                        .then(artist => { concert.artistId = artist })
-                        .catch ()
-                });
                 store.commit('setAllConcerts', response.data)
             })
             .catch(() => {
@@ -64,7 +59,7 @@ const actions = {
     },
     async fetchConcert (store, id) {
         store.commit('setPendingConcertsTrue')
-        await Vue.prototype.$http.get(`http://localhost:3000/concerts/${id}`)
+        await Vue.prototype.$http.get(`http://localhost:3000/concerts/${id}?_expand=artist`)
             .then(response => {
                 store.commit('setConcert', response.data)
             })

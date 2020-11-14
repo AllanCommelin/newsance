@@ -147,16 +147,46 @@
   ],
   "comments": [
     {
-      "newsId" : 1,
-      "userId" : 1,
-      "content" : "Vraiment surprenant.",
-      "created_at" : "12/03/2020 20:20:19"
+      "id": 1,
+      "newsId": 1,
+      "userId": 1,
+      "content": "Vraiment surprenant.",
+      "created_at": "2020/12/03 20:20:19"
     },
     {
-      "newsId" : 1,
-      "userId" : 2,
-      "content" : "Je suis d'accord Allan sah.",
-      "created_at" : "12/03/2020 20:21:20"
+      "id": 2,
+      "newsId": 1,
+      "userId": 2,
+      "content": "Je suis d'accord Allan sah.",
+      "created_at": "2020/12/03/ 20:21:20"
+    },
+    {
+      "newsId": 2,
+      "userId": 4,
+      "content": "First !!",
+      "created_at": "2020/11/14 14:25:00",
+      "id": 3
+    },
+    {
+      "newsId": 2,
+      "userId": 4,
+      "content": "hahaha",
+      "created_at": "2020/11/14 14:26:14",
+      "id": 4
+    },
+    {
+      "newsId": 2,
+      "userId": 4,
+      "content": "Allez les mec !!",
+      "created_at": "2020/11/14 14:28:08",
+      "id": 5
+    },
+    {
+      "newsId": 2,
+      "userId": 1,
+      "content": "Arrêtes de commenter stp",
+      "created_at": "2020/11/14 14:28:08",
+      "id": 6
     }
   ],
   "concerts": [

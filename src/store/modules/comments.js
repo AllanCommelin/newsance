@@ -17,11 +17,8 @@ const actions = {
                 store.commit('setAllComments', response.data)
             })
     },
-    async storeComment(store, data) {
-        await Vue.prototype.$http.post('http://localhost:3000/comment')
-            .then(response => {
-                store.commit('setAllComments', response.data)
-            })
+    async createComment(store, comment) {
+        await Vue.prototype.$http.post('http://localhost:3000/comments', {...comment})
     },
 }
 

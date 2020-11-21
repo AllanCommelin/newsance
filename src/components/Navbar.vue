@@ -6,6 +6,26 @@
                     Accueil
                 </router-link>
             </li>
+            <li class="mr-6">
+                <router-link class="text-white hover:text-teal-300" :to="{name: 'News'}">
+                    News
+                </router-link>
+            </li>
+            <li class="mr-6">
+                <router-link class="text-white hover:text-teal-300" :to="{name: 'Albums'}">
+                    Albums
+                </router-link>
+            </li>
+            <li class="mr-6">
+                <router-link class="text-white hover:text-teal-300" :to="{name: 'Artists'}">
+                    Artistes
+                </router-link>
+            </li>
+            <li class="mr-6">
+                <router-link class="text-white hover:text-teal-300" :to="{name: 'Concerts'}">
+                    Concerts
+                </router-link>
+            </li>
             <li v-if="is_admin" class="mr-6">
                 <router-link class="text-white hover:text-teal-300" :to="{name: 'Admin'}">
                     Admin

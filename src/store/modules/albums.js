@@ -46,9 +46,9 @@ const mutations = {
 }
 
 const actions = {
-    async fetchAllAlbums(store) {
+    async fetchAllAlbums(store, params = '') {
         store.commit('setPendingAlbumsTrue')
-        await Vue.prototype.$http.get('http://localhost:3000/albums?_expand=artist')
+        await Vue.prototype.$http.get('http://localhost:3000/albums' + params)
             .then(response => {
                 store.commit('setAllAlbums', response.data)
             })

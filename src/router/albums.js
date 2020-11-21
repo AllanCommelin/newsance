@@ -1,6 +1,7 @@
 import AdminAlbums from '@/views/back_office/Albums/AdminAlbumsList.vue'
 import AdminAlbumsCreate from '@/views/back_office/Albums/AdminAlbumsCreate.vue'
 import AdminAlbumsEdit from '@/views/back_office/Albums/AdminAlbumsEdit.vue'
+import FrontAlbum from '@/views/front_office/Album/Albums'
 
 const routes = [
     {
@@ -21,6 +22,11 @@ const routes = [
         component: AdminAlbumsEdit,
         meta: { requiresAuth: true }
     },
+    {
+        path: '/albums',
+        name: 'Albums',
+        component: FrontAlbum
+    }
 ]
 
 export default routes

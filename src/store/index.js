@@ -5,6 +5,7 @@ import news from './modules/news'
 import artists from './modules/artists'
 import concerts from './modules/concerts'
 import albums from './modules/albums'
+import comments from './modules/comments'
 
 Vue.use(Vuex)
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     artists,
     concerts,
     albums,
+    comments
   }
 })

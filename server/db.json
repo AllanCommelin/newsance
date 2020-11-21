@@ -11,6 +11,18 @@
       "password": "$2a$10$eiqHnzog.tRK1iM0tp6p9OEHUW9bksaB/Ti3vJdz01ZodelfsenB.",
       "role": "user",
       "id": 2
+    },
+    {
+      "email": "bduez@gmail.com",
+      "password": "1234",
+      "role": "user",
+      "id": 3
+    },
+    {
+      "email": "bduez@aono.fr",
+      "password": "$2a$10$yAnWe3WrhCUHSJVdX4rEo.oJiejp4/9O.7UgKyHu8r2V4vWgiaPBq",
+      "role": "user",
+      "id": 4
     }
   ],
   "news": [
@@ -115,15 +127,6 @@
       "likes": 0,
       "description": "Dinos, anciennement Dinos Punchlinovic, né le 30 novembre 1993 à Douala, est un rappeur français originaire de La Courneuve, en Seine-Saint-Denis. Il est considéré par beaucoup comme l'un des meilleurs lyricistes de la nouvelle génération du rap français.",
       "id": 7
-    },
-    {
-      "name": "PLK",
-      "origin": "Paris 14ème",
-      "avatar": "https://hiphopcorner.fr/wp-content/uploads/2020/08/plk-deuxieme-album-actu.jpg",
-      "genreId": 3,
-      "likes": 0,
-      "description": "PLK, né le 15 avril 1997, est un rappeur français. Il est membre des groupes Panama Bende et La Confrérie. En 2015 et 2016, il sort ses premiers EP, Peur de me tromper et Dedans. Il commence sa carrière solo et signe chez le label Panenka Music en juin 2017.",
-      "id": 8
     }
   ],
   "albums": [
@@ -140,20 +143,50 @@
       "released": 2018,
       "tracks": 13,
       "artistId": 2
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "newsId": 1,
+      "userId": 1,
+      "content": "Vraiment surprenant.",
+      "created_at": "2020/12/03 20:20:19"
     },
     {
-      "name": "Enna",
-      "released": "2020",
-      "tracks": "18",
-      "artistId": 8,
+      "id": 2,
+      "newsId": 1,
+      "userId": 2,
+      "content": "Je suis d'accord Allan sah.",
+      "created_at": "2020/12/03/ 20:21:20"
+    },
+    {
+      "newsId": 2,
+      "userId": 4,
+      "content": "First !!",
+      "created_at": "2020/11/14 14:25:00",
       "id": 3
     },
     {
-      "name": "Batterie faible",
-      "released": "2016",
-      "tracks": "11",
-      "artistId": 3,
+      "newsId": 2,
+      "userId": 4,
+      "content": "hahaha",
+      "created_at": "2020/11/14 14:26:14",
       "id": 4
+    },
+    {
+      "newsId": 2,
+      "userId": 4,
+      "content": "Allez les mec !!",
+      "created_at": "2020/11/14 14:28:08",
+      "id": 5
+    },
+    {
+      "newsId": 2,
+      "userId": 1,
+      "content": "Arrêtes de commenter stp",
+      "created_at": "2020/11/14 14:28:08",
+      "id": 6
     }
   ],
   "concerts": [
@@ -179,7 +212,16 @@
       "name": "667 Tour",
       "date": "2027-06-06",
       "artistId": 6,
-      "id": 4
+      "id": 4,
+      "artist": {
+        "name": "Freeze Corleone",
+        "origin": "667",
+        "avatar": "data:image/jpeg;base64,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",
+        "genreId": 3,
+        "likes": 0,
+        "description": "Ekip S/O VueJS",
+        "id": 6
+      }
     }
   ]
 }

@@ -23,7 +23,7 @@ const router = new VueRouter({
                 ...newsRoutes,
                 ...artistsRoutes,
                 ...concertsRoutes,
-                ...albumsRoutes,
+                ...albumsRoutes
             ]
         }
     ]

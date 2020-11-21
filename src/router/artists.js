@@ -1,7 +1,7 @@
 import AdminArtists from '@/views/back_office/Artists/AdminArtistsList.vue'
 import AdminArtistsCreate from '@/views/back_office/Artists/AdminArtistsCreate.vue'
 import AdminArtistsEdit from '@/views/back_office/Artists/AdminArtistsEdit.vue'
-import Artists from "@/views/front_office/Artists";
+import Artists from "@/views/front_office/Artist/Artists";
 
 const routes = [
     {

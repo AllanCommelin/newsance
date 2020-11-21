@@ -99,7 +99,7 @@
             }
         },
         mounted () {
-            this.fetchAllArtists()
+            this.fetchAllArtists('?_expand=genre')
             this.fetchAlbum(this.$route.params.id)
         }
     }

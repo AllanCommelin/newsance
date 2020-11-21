@@ -3,7 +3,9 @@ import Vue from 'vue'
 const state = {
     allArtists: [],
     allGenres: [],
-    artist: {},
+    artist: {
+        likes: []
+    },
     alertArtists: false,
     pendingArtists: false
 }
@@ -40,13 +42,19 @@ const mutations = {
     },
     setPendingArtistsFalse (state) {
         state.pendingArtists = false
+    },
+    pushUserLike (state, like) {
+        state.artist.likes.push(like)
+    },
+    deleteUserLike (state, userId) {
+        state.artist.likes = state.artist.likes.filter(like => like.userId !== userId)
     }
 }
 
 const actions = {
-    async fetchAllArtists(store) {
+    async fetchAllArtists(store, params = '') {
         store.commit('setPendingArtistsTrue')
-        await Vue.prototype.$http.get('http://localhost:3000/artists?_expand=genre')
+        await Vue.prototype.$http.get('http://localhost:3000/artists' + params)
             .then(response => {
                 store.commit('setAllArtists', response.data)
             })
@@ -66,10 +74,10 @@ const actions = {
             })
         store.commit('setPendingArtistsFalse')
     },
-    async fetchArtist (store, id) {
+    async fetchArtist (store, {id, parameter = ''}) {
         let result
         store.commit('setPendingArtistsTrue')
-        await Vue.prototype.$http.get(`http://localhost:3000/artists/${id}`)
+        await Vue.prototype.$http.get('http://localhost:3000/artists/' + id + parameter)
             .then(response => {
                 store.commit('setArtist', response.data)
                 result = response.data
@@ -79,6 +87,24 @@ const actions = {
             })
         store.commit('setPendingArtistsFalse')
         return result
+    },
+    async like(store, artistId) {
+        await Vue.prototype.$http.post('http://localhost:3000/likes', {userId: store.rootState.user.user.id, artistId: artistId})
+            .then(response => {
+                store.commit('pushUserLike', response.data)
+            })
+            .catch(() => {
+                store.dispatch('errorArtists')
+            })
+    },
+    async unlike(store, likeId) {
+        await Vue.prototype.$http.delete(`http://localhost:3000/likes/${likeId}`)
+            .then(() => {
+                store.commit('deleteUserLike', store.rootState.user.user.id)
+            })
+            .catch(() => {
+                store.dispatch('errorArtists')
+            })
     },
     async createArtist (store, artist) {
         let result;

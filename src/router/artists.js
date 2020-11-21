@@ -2,6 +2,7 @@ import AdminArtists from '@/views/back_office/Artists/AdminArtistsList.vue'
 import AdminArtistsCreate from '@/views/back_office/Artists/AdminArtistsCreate.vue'
 import AdminArtistsEdit from '@/views/back_office/Artists/AdminArtistsEdit.vue'
 import Artists from "@/views/front_office/Artist/Artists";
+import Artist from "@/views/front_office/Artist/Artist";
 
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
         path: '/artists',
         name: 'Artists',
         component: Artists,
+    },
+    {
+        path: '/artist/:id',
+        name: 'Artist',
+        component: Artist,
     },
 ]
 

@@ -6,11 +6,12 @@
                 v-for="(artist, index) in allArtists"
                 :key="index"
                 class="card-news"
+                @click="getArtist(artist.id)"
             >
                 <div class="border border-gray-400 rounded p-4 h-full flex flex-col">
                     <div class="mb-8 text-left">
                         <div class="w-32 h-32 mb-4 mx-auto">
-                            <div class="group w-full h-full rounded-full overflow-hidden shadow-inner text-center bg-purple table cursor-pointer">
+                            <div class="group w-full h-full rounded-full overflow-hidden shadow-inner text-center bg-purple table">
                                 <img :src="artist.avatar" :alt="artist.name" class="object-cover object-center w-full h-full visible group-hover:hidden" />
                             </div>
                         </div>
@@ -21,7 +22,7 @@
                     </div>
                     <div class="flex items-center justify-between mt-auto">
                         <div class="text-sm">
-                            <p class="text-gray-600"><span class="text-red-600">&#10084;</span> {{ artist.likes }}</p>
+                            <p class="text-gray-600"><span class="text-red-600">&#10084;</span> {{ artist.likes.length }}</p>
                         </div>
                         <div class="text-sm">
                             <p class="text-blue-600">Voir plus <span class="arrow">&rarr;</span></p>
@@ -58,10 +59,15 @@ export default {
         ...mapActions({
             fetchAllArtists: 'artists/fetchAllArtists',
         }),
+        getArtist (id) {
+            this.$router.push({
+                name: 'Artist',
+                params: { id: id }
+            })
+        }
     },
     mounted () {
-        this.fetchAllArtists()
-        console.log(this.allArtists)
+        this.fetchAllArtists('?_embed=likes')
     },
 }
 </script>

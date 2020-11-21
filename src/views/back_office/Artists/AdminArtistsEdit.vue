@@ -122,7 +122,9 @@
         },
         mounted() {
             this.fetchAllGenres()
-            this.fetchArtist(this.$route.params.id)
+            this.fetchArtist({
+                id: this.$route.params.id,
+            })
         }
     }
 </script>

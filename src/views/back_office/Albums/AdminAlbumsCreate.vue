@@ -103,7 +103,7 @@
             }
         },
         mounted () {
-            this.fetchAllArtists()
+            this.fetchAllArtists('?_expand=genre')
         }
     }
 </script>

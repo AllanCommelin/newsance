@@ -1,5 +1,6 @@
 <template>
     <BOTemplate>
+        <modal :item="itemToDelete.name"  v-if='toggleModal' @confirm='deleteItem' @cancel="closeModal"/>
         <div v-if="alertAlbums" class="my-2">
             <alert :msg='alertAlbums.msg' :type="alertAlbums.type"></alert>
         </div>
@@ -33,7 +34,7 @@
                                 <button @click="goToEdit(albums.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
                                     Modifier
                                 </button>
-                                <button @click="remove(albums.id)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
+                                <button @click="askToDelete(albums)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
                                     Supprimer
                                 </button>
                             </td>
@@ -54,13 +55,21 @@
 <script>
     import BOTemplate from '@/layouts/BOTemplate'
     import Alert from '@/components/Alert'
+    import Modal from '@/components/back_office/Modal'
     import { mapActions, mapState, mapGetters } from 'vuex'
 
     export default {
         name: "AdminAlbumsList",
         components: {
             BOTemplate,
-            Alert
+            Alert,
+            Modal
+        },
+        data () {
+            return {
+                itemToDelete: null,
+                toggleModal: false,
+            }
         },
         computed: {
             ...mapState({
@@ -83,12 +92,22 @@
             goToEdit (id) {
                 this.$router.push({name: 'Admin.albums.edit', params: { id: id } })
             },
-            remove (id) {
-                this.deleteAlbum(id)
-                    .then(() => {
-                        this.fetchAllAlbums()
-                    }).catch()
-
+            askToDelete (item) {
+                this.itemToDelete = item
+                this.toggleModal = true
+            },
+            closeModal () {
+                this.itemToDelete = null
+                this.toggleModal = false
+            },
+            deleteItem () {
+                if(this.itemToDelete.id) {
+                    this.deleteAlbum(this.itemToDelete.id)
+                        .then(() => {
+                            this.closeModal()
+                            this.fetchAllAlbums()
+                        }).catch()
+                }
             }
         },
         mounted () {

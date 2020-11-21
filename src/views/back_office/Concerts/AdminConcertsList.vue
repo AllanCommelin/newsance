@@ -1,5 +1,6 @@
 <template>
     <BOTemplate>
+        <modal :item="itemToDelete.name"  v-if='toggleModal' @confirm='deleteItem' @cancel="closeModal"/>
         <div v-if="alertConcerts" class="my-2">
             <alert :msg='alertConcerts.msg' :type="alertConcerts.type"></alert>
         </div>
@@ -31,7 +32,7 @@
                                 <button @click="goToEdit(concert.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
                                     Modifier
                                 </button>
-                                <button @click="remove(concert.id)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
+                                <button @click="askToDelete(concert)" class="px-4 py-1 text-white font-light tracking-wider bg-red-500 hover:bg-red-800 rounded">
                                     Supprimer
                                 </button>
                             </td>
@@ -52,13 +53,21 @@
 <script>
     import BOTemplate from '@/layouts/BOTemplate'
     import Alert from '@/components/Alert'
+    import Modal from '@/components/back_office/Modal'
     import { mapActions, mapState, mapGetters } from 'vuex'
 
     export default {
         name: "AdminConcertsList",
         components: {
             BOTemplate,
-            Alert
+            Alert,
+            Modal
+        },
+        data () {
+            return {
+                itemToDelete: null,
+                toggleModal: false,
+            }
         },
         computed: {
             ...mapState({
@@ -73,7 +82,7 @@
             ...mapActions({
                 fetchAllConcerts: 'concerts/fetchAllConcerts',
                 createConcert: 'concerts/createConcert',
-                deleteConcert: 'artists/deleteConcerts'
+                deleteConcert: 'concerts/deleteConcerts'
             }),
             getFormatDate(date) {
                 let date_ob = new Date(date);
@@ -89,12 +98,22 @@
             goToEdit (id) {
                 this.$router.push({name: 'Admin.concerts.edit', params: { id: id } })
             },
-            remove (id) {
-                this.deleteConcert(id)
-                    .then(() => {
-                        this.fetchAllConcerts()
-                    }).catch()
-
+            askToDelete (item) {
+                this.itemToDelete = item
+                this.toggleModal = true
+            },
+            closeModal () {
+                this.itemToDelete = null
+                this.toggleModal = false
+            },
+            deleteItem () {
+                if(this.itemToDelete.id) {
+                    this.deleteConcert(this.itemToDelete.id)
+                        .then(() => {
+                            this.closeModal()
+                            this.fetchAllConcerts()
+                        }).catch()
+                }
             }
         },
         mounted () {

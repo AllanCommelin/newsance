@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="button" value="Enregister" @click="saveConcert" :disabled="!isFullFiled" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
+                <input type="button" value="Enregistrer" @click="saveConcert" :disabled="!isFullFiled" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded"/>
             </div>
         </div>
     </BOTemplate>
@@ -76,7 +76,12 @@
             }),
             saveConcert () {
                 if(this.isFullFiled) {
-                    this.editConcert(this.concert)
+                    this.editConcert({
+                        id: this.concert.id,
+                        name: this.concert.name,
+                        date: this.concert.date,
+                        artistId: this.concert.artistId,
+                    })
                         .then(() => {
                             this.$router.push({name: 'Admin.concerts'})
                         }).catch()

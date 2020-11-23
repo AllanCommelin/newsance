@@ -89,6 +89,10 @@ const actions = {
         return result
     },
     async like(store, artistId) {
+        if (!store.rootState.user.is_login) {
+            store.dispatch('errorArtists')
+            return false;
+        }
         await Vue.prototype.$http.post('http://localhost:3000/likes', {userId: store.rootState.user.user.id, artistId: artistId})
             .then(response => {
                 store.commit('pushUserLike', response.data)
@@ -98,6 +102,10 @@ const actions = {
             })
     },
     async unlike(store, likeId) {
+        if (!store.rootState.user.is_login) {
+            store.dispatch('errorArtists')
+            return false;
+        }
         await Vue.prototype.$http.delete(`http://localhost:3000/likes/${likeId}`)
             .then(() => {
                 store.commit('deleteUserLike', store.rootState.user.user.id)

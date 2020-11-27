@@ -1,9 +1,10 @@
 <template>
     <FOTemplate>
         <h1>Découvrez les artistes</h1>
-        <div class="max-w-sm w-full lg:max-w-full lg:flex flex-wrap">
+        <search-bar v-model="searchArtist"></search-bar>
+        <div class="w-full flex flex-wrap">
             <div
-                v-for="(artist, index) in allArtists"
+                v-for="(artist, index) in filterArtist"
                 :key="index"
                 class="card-news"
                 @click="getArtist(artist.id)"
@@ -38,16 +39,26 @@
 
 import {mapActions, mapState} from "vuex";
 import FOTemplate from "@/layouts/FOTemplate";
+import SearchBar from "@/components/searchBar";
 
 export default {
     name: 'FrontArtists',
     components: {
-        FOTemplate
+        FOTemplate,
+        SearchBar
+    },
+    data () {
+        return {
+            searchArtist: '',
+        }
     },
     computed: {
         ...mapState({
             allArtists: state => state.artists.allArtists,
-        })
+        }),
+        filterArtist () {
+            return this.allArtists.filter(artist => artist.name.toLowerCase().match(this.searchArtist.toLowerCase()))
+        }
     },
     filters: {
         reduce: function (value) {

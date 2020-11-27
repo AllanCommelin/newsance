@@ -1,7 +1,7 @@
 import AdminConcerts from '@/views/back_office/Concerts/AdminConcertsList.vue'
 import AdminConcertsCreate from '@/views/back_office/Concerts/AdminConcertsCreate.vue'
 import AdminConcertsEdit from '@/views/back_office/Concerts/AdminConcertsEdit.vue'
-import Concert from "@/views/front_office/Concert";
+import Concert from "@/views/front_office/Concert/Concerts";
 
 const routes = [
     {

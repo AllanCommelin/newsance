@@ -1,7 +1,8 @@
 <template>
     <FOTemplate>
         <h1 class="text-center">Dernières sorties</h1>
-        <table class="table-auto mx-auto">
+        <search-bar v-model="searchAlbum"></search-bar>
+        <table class="table-auto mx-auto w-full">
             <thead>
             <tr>
                 <th class="px-4 py-2">Titre</th>
@@ -11,7 +12,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr  v-for="(album, index) in allAlbums"
+            <tr  v-for="(album, index) in filterAlbum"
                  :key="index"
                  :class="index % 2 === 0 ? '' : 'bg-gray-100'"
             >
@@ -29,16 +30,29 @@
 
 import {mapActions, mapState} from "vuex";
 import FOTemplate from "@/layouts/FOTemplate";
+import searchBar from "@/components/searchBar";
 
 export default {
     name: 'FrontAlbum',
     components : {
-      FOTemplate
+        FOTemplate,
+        searchBar
+    },
+    data () {
+        return {
+            searchAlbum: '',
+        }
     },
     computed: {
         ...mapState({
             allAlbums: state => state.albums.allAlbums,
         }),
+        filterAlbum () {
+            return this.allAlbums.filter(album =>
+                album.name.toLowerCase().match(this.searchAlbum.toLowerCase()) ||
+                album.artist.name.toLowerCase().match(this.searchAlbum.toLowerCase())
+            )
+        }
     },
     methods: {
         ...mapActions({
@@ -46,7 +60,7 @@ export default {
         }),
         getArtist (id) {
             this.$router.push({
-                name: 'Artist.show',
+                name: 'Artist',
                 params: { id: id }
             })
         }

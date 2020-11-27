@@ -36,7 +36,7 @@
                             <td v-else class="p-3 px-5"><i>Genre non trouvé</i></td>
                             <td class="p-3 px-5">{{ artist.origin }}</td>
                             <td class="p-3 px-5">{{ artist.description ? artist.description.substring(0, 15) + '..' : ''}}</td>
-                            <td class="p-3 px-5">{{ artist.likes }}</td>
+                            <td class="p-3 px-5">{{ artist.likes.length }}</td>
                             <td class="p-3 px-5 flex justify-end">
                                 <button @click="goToEdit(artist.id)" class="px-4 py-1 mr-2 text-white font-light tracking-wider bg-green-500 hover:bg-green-800 rounded">
                                     Modifier
@@ -109,13 +109,13 @@
                     this.deleteArtists(this.itemToDelete.id)
                         .then(() => {
                             this.closeModal()
-                            this.fetchAllArtists()
+                            this.fetchAllArtists('?_expand=genre')
                         }).catch()
                 }
             }
         },
         mounted () {
-            this.fetchAllArtists()
+            this.fetchAllArtists('?_expand=genre&_embed=likes')
         },
     }
 </script>

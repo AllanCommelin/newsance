@@ -1,53 +1,69 @@
 import Vue from 'vue'
-import userApi from '@/api/users'
+import userApi from '@/api/user'
+import store from '@/store'
+import Main from '@/layouts/Main.vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
-import Register from '@/views/Register.vue'
+import defaultRoutes from '@/router/default'
+import newsRoutes from '@/router/news'
+import artistsRoutes from '@/router/artists'
+import concertsRoutes from '@/router/concerts'
+import albumsRoutes from '@/router/albums'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
-
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: '/',
+    routes: [
+        {
+            component: Main,
+            path: '',
+            children: [
+                ...defaultRoutes,
+                ...newsRoutes,
+                ...artistsRoutes,
+                ...concertsRoutes,
+                ...albumsRoutes
+            ]
+        }
+    ]
 })
 
 router.beforeEach(async (to, from, next) => {
-    if (to.matched.some(route => route.meta.auth)) {
-        try {
-            await userApi.verifyUser()
+    // Si la route nécessite d'être login
+    if (to.matched.some(route => route.meta.requiresAuth)) {
+        // Si déjà login et set dans le store
+        if (store.state.user.is_login) {
             return next()
-        } catch (e) {
-            localStorage.removeItem('token')
+        } else if (localStorage.getItem('token')) {
+            // Si il y a un token dans le localStorage mais que le user n'est pas dans le store
+            try {
+                await userApi.verifyUser()
+                    .then(() => {
+                        next()
+                    }).catch(() => {
+                        next('/login')
+                    })
+            } catch (e) {
+                localStorage.removeItem('token')
+                return next('/login')
+            }
+        } else {
             return next('/login')
         }
+        // Si la route ne nécessite pas d'être login, mais qu'il y a un token dans le localStorage
+    } else if(localStorage.getItem('token')) {
+        // Si le user est déjà set dans le store
+        if (store.state.user.is_login) {
+            return next()
+        } else {
+            try {
+                await userApi.verifyUser()
+            } catch (e) {
+                localStorage.removeItem('token')
+            }
+        }
+        return next()
     } else {
         return next()
     }

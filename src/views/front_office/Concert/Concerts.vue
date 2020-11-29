@@ -1,6 +1,6 @@
 <template>
     <FOTemplate>
-        <h1 class="text-center">Liste des concerts</h1>
+        <h1 class="text-center">Les prochains concerts</h1>
         <search-bar v-model="searchConcert"></search-bar>
         <table class="table-auto mx-auto w-full">
             <thead>
@@ -40,7 +40,7 @@ export default {
             return this.allConcerts.filter(concert =>
                 concert.name.toLowerCase().match(this.searchConcert.toLowerCase()) ||
                 concert.artist.name.toLowerCase().match(this.searchConcert.toLowerCase())
-            )
+            ).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime() )
         }
     },
     data () {

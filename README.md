@@ -4,7 +4,7 @@ Travail en équipe :
 Benjamin Duez & Allan Commelin.
 
 Back-office avec : 
-- Système de connexion et d'inscription avec gestion des rôles
+- Système de connexion et d'inscription
 - CRUD news 
 - CRUD artistes avec gestion de la relation genre
 - CRUD albums avec gestion de la relation artiste

@@ -1,10 +1,9 @@
 <template>
-    <FOTemplate>
-        <h1>Découvrez nos articles</h1>
-        <search-bar v-model="searchNews"></search-bar>
+    <div>
+        <h3 class="text-3xl font-bold">Les dernières news</h3>
         <div class="w-full flex flex-wrap">
             <div
-                v-for="news in filterNews"
+                v-for="news in lastNews"
                 :key="news.id"
                 class="card-news"
                 @click="getNews(news.id)"
@@ -25,42 +24,27 @@
                 </div>
             </div>
         </div>
-    </FOTemplate>
+    </div>
 </template>
 
 <script>
-
-import {mapActions, mapState} from "vuex"
-import FOTemplate from "@/layouts/FOTemplate"
-import searchBar from "@/components/searchBar";
+import {mapActions, mapState} from "vuex";
 
 export default {
-    name: 'FrontNews',
-    components: {
-        FOTemplate,
-        searchBar
-    },
+    name: 'LastNews',
     computed: {
         ...mapState({
             allNews: state => state.news.allNews,
         }),
-        filterNews () {
-            return this.allNews.filter(news =>
-                news.title.toLowerCase().match(this.searchNews.toLowerCase()) ||
-                news.content.toLowerCase().match(this.searchNews.toLowerCase())
-            )
-        }
-    },
-    data () {
-        return {
-            searchNews: ''
-        }
+        lastNews () {
+            return this.allNews.slice(0, 5)
+                .sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime())
+        },
     },
     filters: {
-      reduce: function (value) {
-          let limit = 100
-          return value.length >= limit ? value.substring(0,limit) + '...' : value
-      }
+        reduce: function (value, limit = 100) {
+            return value.length >= limit ? value.substring(0,limit) + '...' : value
+        }
     },
     methods: {
         ...mapActions({
@@ -79,18 +63,18 @@ export default {
 }
 </script>
 
-<style scoped>
-   .card-news {
-       @apply border border-gray-400 bg-white rounded p-4 flex flex-col justify-between leading-normal w-1/3 m-2 cursor-pointer;
-   }
-   span {
-       transition: .3s;
-   }
-   .card-news:hover span{
-       transition: .3s;
-       margin-left: .5rem;
-   }
-   .card-news:hover {
-       background-color: #f5f5f5;
-   }
+<style lang="scss" scoped>
+.card-news {
+    @apply border border-gray-400 bg-white rounded p-4 flex flex-col justify-between leading-normal w-1/3 m-2 cursor-pointer;
+}
+span {
+    transition: .3s;
+}
+.card-news:hover span{
+    transition: .3s;
+    margin-left: .5rem;
+}
+.card-news:hover {
+    background-color: #f5f5f5;
+}
 </style>

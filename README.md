@@ -15,7 +15,7 @@ Front-office avec :
 - Une page d'accueil affichant **le top 5 des artistes les plus likés**, les dernières news et les derniers albums. 
 - Une page news avec tout les articles et **la possibilité pour un utilisateurs de commenté un article**.
 - Une page albums qui affiche les albums.
-- Une pages artites qui affiche tout les artistes avec les liens vers les pages de chaque artistes et la **possibilité de liker un artiste**
+- Une pages artites qui affiche tout les artistes avec les liens vers les pages de chaque artistes avec sa bio, la liste des ses albums et concerts ainsi que la **possibilité de liker un artiste**
 - Une pages qui liste les concerts.
 
 Chaque page à **un champ de recherche rapide**.

@@ -111,7 +111,7 @@
             }
         },
         mounted () {
-            this.fetchAllAlbums()
+            this.fetchAllAlbums('?_expand=artist')
         }
     }
 </script>

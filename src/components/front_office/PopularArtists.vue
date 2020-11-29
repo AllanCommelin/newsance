@@ -1,11 +1,10 @@
 <template>
-    <FOTemplate>
-        <h1>Découvrez les artistes</h1>
-        <search-bar v-model="searchArtist"></search-bar>
-        <div class="w-full flex flex-wrap">
+    <div>
+        <h3 class="text-3xl font-bold">Les 5 artistes les plus likés</h3>
+        <div class="max-w-sm w-full lg:max-w-full lg:flex flex-wrap">
             <div
-                v-for="(artist, index) in filterArtist"
-                :key="index"
+                v-for="(artist) in sortedArtists(allArtists)"
+                :key="artist.id"
                 class="card-news"
                 @click="getArtist(artist.id)"
             >
@@ -32,39 +31,24 @@
                 </div>
             </div>
         </div>
-    </FOTemplate>
+    </div>
 </template>
 
 <script>
-
 import {mapActions, mapState} from "vuex";
-import FOTemplate from "@/layouts/FOTemplate";
-import SearchBar from "@/components/searchBar";
 
 export default {
-    name: 'FrontArtists',
-    components: {
-        FOTemplate,
-        SearchBar
-    },
-    data () {
-        return {
-            searchArtist: '',
-        }
-    },
+    name: 'PopularArtists',
     computed: {
         ...mapState({
             allArtists: state => state.artists.allArtists,
-        }),
-        filterArtist () {
-            return this.allArtists.filter(artist => artist.name.toLowerCase().match(this.searchArtist.toLowerCase()))
-        }
+        })
     },
     filters: {
-        reduce: function (value) {
-            let limit = 100
-            return value.length >= limit ? value.substring(0,limit) + '...' : value
-        }
+    reduce: function (value) {
+        let limit = 100
+        return value.length >= limit ? value.substring(0,limit) + '...' : value
+    }
     },
     methods: {
         ...mapActions({
@@ -75,6 +59,11 @@ export default {
                 name: 'Artist',
                 params: { id: id }
             })
+        },
+        sortedArtists: function(arr) {
+            return arr.slice(0, 5).sort((a, b) => {
+                return b.likes.length - a.likes.length
+            })
         }
     },
     mounted () {
@@ -83,18 +72,18 @@ export default {
 }
 </script>
 
-<style scoped>
-.card-news {
-    @apply bg-white p-2 flex flex-col justify-between leading-normal w-1/4 cursor-pointer;
-}
-span {
-    transition: .3s;
-}
-.card-news:hover .arrow{
-    transition: .3s;
-    margin-left: .5rem;
-}
-.card-news > div:hover {
-    background-color: #f5f5f5;
-}
+<style lang="scss" scoped>
+    .card-news {
+        @apply bg-white p-2 flex flex-col justify-between leading-normal w-1/3 cursor-pointer;
+    }
+    span {
+        transition: .3s;
+    }
+    .card-news:hover .arrow{
+        transition: .3s;
+        margin-left: .5rem;
+    }
+    .card-news > div:hover {
+        background-color: #f5f5f5;
+    }
 </style>

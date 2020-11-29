@@ -37,13 +37,13 @@ export default {
     computed: {
         ...mapState({
             artist: state => state.artists.artist,
-            user: state => state.user.user,
+            user: state => state.user,
         }),
         checkIfUserLiked: function () {
-            return this.artist.likes.some(like => like.userId === this.user.id)
+            return this.artist.likes.some(like => like.userId === this.user.user.id)
         },
         userLikeId: function () {
-            return this.artist.likes.find(like => like.userId === this.user.id).id
+            return this.artist.likes.find(like => like.userId === this.user.user.id).id
         }
     },
     methods: {

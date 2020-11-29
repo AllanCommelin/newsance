@@ -1,9 +1,10 @@
 <template>
     <FOTemplate>
         <h1>Découvrez nos articles</h1>
-        <div class="max-w-sm w-full lg:max-w-full lg:flex">
+        <search-bar v-model="searchNews"></search-bar>
+        <div class="w-full flex flex-wrap">
             <div
-                v-for="(news, index) in allNews"
+                v-for="(news, index) in filterNews"
                 :key="index"
                 class="card-news"
                 @click="getNews(news.id)"
@@ -29,18 +30,31 @@
 
 <script>
 
-import {mapActions, mapState} from "vuex";
-import FOTemplate from "@/layouts/FOTemplate";
+import {mapActions, mapState} from "vuex"
+import FOTemplate from "@/layouts/FOTemplate"
+import searchBar from "@/components/searchBar";
 
 export default {
     name: 'FrontNews',
     components: {
-        FOTemplate
+        FOTemplate,
+        searchBar
     },
     computed: {
         ...mapState({
             allNews: state => state.news.allNews,
-        })
+        }),
+        filterNews () {
+            return this.allNews.filter(news =>
+                news.title.toLowerCase().match(this.searchNews.toLowerCase()) ||
+                news.content.toLowerCase().match(this.searchNews.toLowerCase())
+            )
+        }
+    },
+    data () {
+        return {
+            searchNews: ''
+        }
     },
     filters: {
       reduce: function (value) {
